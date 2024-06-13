@@ -12,3 +12,4 @@ class Carro(models.Model):
 
     def __str__(self):
         return self.marca + ' ' + self.modelo + ' ' + str(self.ano)
+

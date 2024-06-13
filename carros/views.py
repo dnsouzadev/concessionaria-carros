@@ -5,10 +5,14 @@ from django.shortcuts import redirect, render
 from .forms import FormCarro
 from .models import Carro
 from django.core.exceptions import ObjectDoesNotExist
+from .utils import formatar_preco
 
 # Create your views here.
 def index(request):
     carros = Carro.objects.all()
+    for carro in carros:
+        carro.preco_formatado = formatar_preco(carro.preco)
+
     return render(request, 'index.html', {'carros': carros})
 
 
