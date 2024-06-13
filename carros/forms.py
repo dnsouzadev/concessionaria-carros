@@ -9,8 +9,8 @@ from crispy_forms.layout import Layout, Row, Column, Button, Field, Submit
 class FormCarro(ModelForm):
 
     class Meta:
-        model = Carro  # Substitua pelo seu modelo
-        fields = ['marca', 'modelo', 'ano', 'preco', 'cor', 'estoque']
+        model = Carro
+        fields = ['marca', 'modelo', 'ano', 'preco', 'cor', 'estoque', 'imagem']
         labels = {
             'marca': 'Marca',
             'modelo': 'Modelo',
@@ -18,6 +18,7 @@ class FormCarro(ModelForm):
             'preco': 'Preço',
             'cor': 'Cor',
             'estoque': 'Estoque',
+            'imagem': 'Imagem',
         }
 
     def __init__(self, *args, **kwargs):
@@ -38,6 +39,9 @@ class FormCarro(ModelForm):
             Row(
                 Column(Field('cor', css_class='form-control'), css_class='form-group col-md-6 mb-3'),
                 Column(Field('estoque', css_class='form-control'), css_class='form-group col-md-6 mb-3'),
+            ),
+            Row(
+                Column(Field('imagem', css_class='form-control'), css_class='form-group col-md-12 mb-3'),
             ),
             Row(
                 Column(

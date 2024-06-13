@@ -1,0 +1,28 @@
+{% extends 'basic.html' %}
+{% load static %}
+{% block title %}Detalhes do Carro{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <a href="{% url 'listar_carros' %}" class="btn btn-primary">Voltar</a>
+    <div class="row justify-content-center"> <!-- Adicionado justify-content-center -->
+        <div class="col-md-6 text-center"> <!-- Adicionado text-center -->
+            {% if carro.imagem %}
+                <img src="{{ carro.imagem.url }}" class="img-fluid" width="200" height="200" alt="{{ carro.modelo }}">
+            {% endif %}
+            <h1>{{ carro.modelo }}</h1>
+            <ul class="list-group">
+                <li class="list-group-item">Marca: {{ carro.marca }}</li>
+                <li class="list-group-item">Ano: {{ carro.ano }}</li>
+                <li class="list-group-item">Preço: {{ carro.preco_formatado }}</li>
+                <li class="list-group-item">Cor: {{ carro.cor }}</li>
+                {% if carro.estoque > 0 %}
+                    <li class="list-group-item">Estoque: Disponível</li>
+                {% else %}
+                    <li class="list-group-item">Estoque: Indisponível</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock content %}
