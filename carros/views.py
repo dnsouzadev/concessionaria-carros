@@ -1,5 +1,6 @@
+from django.forms import Form, ModelForm
 from django.shortcuts import redirect, render
-
+from .forms import FormCarro
 from .models import Carro
 
 # Create your views here.
@@ -9,6 +10,7 @@ def index(request):
 
 
 def criar_carro(request):
+    form = FormCarro()
     if request.method == 'POST':
         carro = Carro()
         carro.marca = request.POST['marca']
@@ -19,4 +21,4 @@ def criar_carro(request):
         carro.estoque = request.POST['estoque']
         carro.save()
         return redirect('index')
-    return render(request, 'criar_carro.html')
+    return render(request, 'criar_carro.html', {'form': form})
