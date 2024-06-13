@@ -1,7 +1,10 @@
+import json
 from django.forms import Form, ModelForm
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from .forms import FormCarro
 from .models import Carro
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 def index(request):
@@ -10,15 +13,33 @@ def index(request):
 
 
 def criar_carro(request):
-    form = FormCarro()
     if request.method == 'POST':
-        carro = Carro()
-        carro.marca = request.POST['marca']
-        carro.modelo = request.POST['modelo']
-        carro.ano = request.POST['ano']
-        carro.preco = request.POST['preco']
-        carro.cor = request.POST['cor']
-        carro.estoque = request.POST['estoque']
-        carro.save()
-        return redirect('index')
-    return render(request, 'criar_carro.html', {'form': form})
+        form = FormCarro(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = FormCarro()
+        return render(request, 'criar_carro.html', {'form': form})
+
+
+def editar_carro(request, id):
+    carro = Carro.objects.get(id=id)
+    if request.method == 'POST':
+        form = FormCarro(request.POST, instance=carro)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = FormCarro(instance=carro)
+        return render(request, 'editar_carro.html', {'form': form})
+
+
+def excluir_carro(request, id):
+    try:
+        carro = Carro.objects.get(id=id)
+        carro.delete()
+        return JsonResponse({'message': 'Carro excluído com sucesso!'})
+    except ObjectDoesNotExist:
+        return JsonResponse({}, status=204)  # Status 204 significa "No Content"
+

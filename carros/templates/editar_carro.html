@@ -1,14 +1,15 @@
 {% extends 'basic.html' %}
-{% block title %}Adicionar Carro{% endblock %}
+{% block title %}Editar Carro{% endblock %}
 {% load crispy_forms_tags %}
 
 {% block content %}
+
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">Adicionar Carro</h3>
+                <div class="card-header bg-warning text-white">
+                    <h3 class="mb-0">Editar Carro</h3>
                 </div>
                 <div class="card-body">
                     <form method="POST">
@@ -20,4 +21,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}
