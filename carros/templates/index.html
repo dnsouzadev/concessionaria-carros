@@ -1,1 +1,26 @@
-oi
+{% extends 'basic.html' %}
+
+{% block content %}
+    <h1>Carros</h1>
+    <a href="{% url 'criar_carro' %}">Adicionar Carro</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Modelo</th>
+                <th>Marca</th>
+                <th>Ano</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for carro in carros %}
+                <tr>
+                    <td>{{ carro.modelo }}</td>
+                    <td>{{ carro.marca }}</td>
+                    <td>{{ carro.ano }}</td>
+                    <td>{{ carro.preco }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
