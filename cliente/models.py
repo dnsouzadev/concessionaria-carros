@@ -55,5 +55,13 @@ class Compra(models.Model):
     def valor(self):
         return self.carro.preco
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for carro in Carro.objects.all():
+            if carro.estoque > 0:
+                carro.estoque -= 1
+                carro.save()
+                break
+
 
 

@@ -1,0 +1,40 @@
+{% extends 'basic.html' %}
+{% block title %} Compra {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">Data da Compra: {{ compra.data_compra }}</h5>
+        </div>
+        <div class="card-body">
+            <div class="row mb-2">
+                <div class="col-md-6">
+                    <h6 class="card-subtitle mb-2 text-muted">Informações do Cliente:</h6>
+                    <p class="card-text">
+                        <strong>Nome:</strong> {{ compra.cliente.nome }}<br>
+                        <strong>CPF:</strong> {{ compra.cliente.cpf }}<br>
+                        <strong>Telefone:</strong> {{ compra.cliente.telefone }}<br>
+                        <strong>Email:</strong> {{ compra.cliente.email }}<br>
+                        <strong>Data de Nascimento:</strong> {{ compra.cliente.data_nascimento }}<br>
+                        <strong>Nível:</strong> {{ compra.cliente.nivel_bruto }}
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="card-subtitle mb-2 text-muted">Informações da Compra:</h6>
+                    <p class="card-text">
+                        <strong>Marca:</strong> {{ compra.carro.marca }}<br>
+                        <strong>Modelo:</strong> {{ compra.carro.modelo }}<br>
+                        <strong>Ano:</strong> {{ compra.carro.ano }}<br>
+                        <strong>Preço:</strong> {{ compra.preco_formatado }}<br>
+                        <strong>Cor:</strong> {{ compra.carro.cor }}
+                    </p>
+                </div>
+            </div>
+            <div class="text-center">
+                <img src="{{ compra.carro.imagem.url }}" alt="Imagem do carro" class="img-fluid rounded" style="max-width: 350px;">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

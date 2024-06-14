@@ -1,3 +1,4 @@
+from typing import Any
 from django.db import models
 
 # Create your models here.
@@ -13,4 +14,3 @@ class Carro(models.Model):
 
     def __str__(self):
         return self.marca + ' ' + self.modelo + ' ' + str(self.ano)
-

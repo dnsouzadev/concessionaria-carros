@@ -1,6 +1,8 @@
 import re
-from django.http import JsonResponse
-from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect, render
+
+from .forms import ClienteForm
 
 from .models import Cliente, Compra
 from .utils import formatar_preco
@@ -19,7 +21,14 @@ def listar_clientes(request):
     return render(request, 'listar_clientes.html', context)
 
 def criar_cliente(request):
-    return JsonResponse({'message': 'Criar cliente'})
+    if request.method == 'POST':
+        form = ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_clientes')
+    else:
+        form = ClienteForm()
+        return render(request, 'criar_cliente.html', {'form': form})
 
 def editar_cliente(request, id):
     return JsonResponse({'message': 'Editar cliente'})
@@ -29,20 +38,9 @@ def excluir_cliente(request, id):
 
 
 def listar_compras(request):
-    compras = Compra.objects.all()
 
 
-
-    compras.valor = 0
-    for compra in compras:
-        compra.valor = compra.valor()
-        compra.preco_formatado = formatar_preco(compra.valor)
-
-    context = {
-        'compras': compras
-    }
-
-    return render(request, 'listar_compras.html', context)
+    return render(request, 'listar_compras.html')
 
 
 def criar_compra(request):
@@ -53,3 +51,17 @@ def editar_compra(request, id):
 
 def excluir_compra(request, id):
     return JsonResponse({'message': 'Excluir compra'})
+
+def compra(request, id):
+    compras = Compra.objects.filter(cliente_id=id)
+
+    compras.valor = 0
+    for compra in compras:
+        compra.valor = compra.valor()
+        compra.preco_formatado = formatar_preco(compra.valor)
+
+    context = {
+        'compras': compras
+    }
+
+    return render(request, 'compra.html', context)
