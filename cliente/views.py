@@ -1,4 +1,3 @@
-import re
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
@@ -38,8 +37,6 @@ def excluir_cliente(request, id):
 
 
 def listar_compras(request):
-
-
     return render(request, 'listar_compras.html')
 
 
@@ -53,15 +50,18 @@ def excluir_compra(request, id):
     return JsonResponse({'message': 'Excluir compra'})
 
 def compra(request, id):
-    compras = Compra.objects.filter(cliente_id=id)
+    try:
+        compras = Compra.objects.filter(cliente_id=id)
 
-    compras.valor = 0
-    for compra in compras:
-        compra.valor = compra.valor()
-        compra.preco_formatado = formatar_preco(compra.valor)
+        compras.valor = 0
+        for compra in compras:
+            compra.valor = compra.valor()
+            compra.preco_formatado = formatar_preco(compra.valor)
 
-    context = {
-        'compras': compras
-    }
+        context = {
+            'compras': compras
+        }
 
-    return render(request, 'compra.html', context)
+        return render(request, 'compra.html', context)
+    except Compra.DoesNotExist:
+        return HttpResponse('nao existe compra para este cliente')

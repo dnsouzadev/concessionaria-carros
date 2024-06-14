@@ -1,4 +1,5 @@
-from calendar import c
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 from django.db import models
 from carros.models import Carro
 # Create your models here.
@@ -38,6 +39,8 @@ class Cliente(models.Model):
             return 'DIAMANTE'
 
     def total_valor_gasto(self):
+        if not self.compras.all():
+            return 0
         # Calcula o total gasto pelo cliente em todas as compras
         return sum(compra.valor() for compra in self.compras.all())
 
@@ -55,13 +58,18 @@ class Compra(models.Model):
     def valor(self):
         return self.carro.preco
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for carro in Carro.objects.all():
-            if carro.estoque > 0:
-                carro.estoque -= 1
-                carro.save()
-                break
+@receiver(post_save, sender=Compra)
+def atualizar_estoque(sender, instance, **kwargs):
+    if instance.pk:  # Verifica se é uma atualização ou uma nova compra
+        # Reduz o estoque do carro associado à compra
+        instance.carro.estoque -= 1
+        instance.carro.save()
+
+@receiver(post_delete, sender=Compra)
+def atualizar_estoque_apos_exclusao(sender, instance, **kwargs):
+    # Ao excluir uma compra, incrementa o estoque do carro associado em 1
+    instance.carro.estoque += 1
+    instance.carro.save()
 
 
 
