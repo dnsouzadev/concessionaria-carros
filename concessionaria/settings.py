@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     #Apps
     'carros',
     'cliente',
+    'autorizacao',
     #Instalados
     "crispy_forms",
     "crispy_bootstrap4",

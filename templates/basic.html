@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://kit.fontawesome.com/65f22fe718.js" crossorigin="anonymous"></script>
     {% block css %}{% endblock %}
+    <style>
+    {% block style %}
+    {% endblock %}
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -19,7 +23,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="{% url 'dashboard'%}">Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'listar_carros'%}">Carros</a>

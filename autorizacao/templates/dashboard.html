@@ -1,0 +1,60 @@
+{% extends "basic.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Dashboard</h1>
+        <a href="{% url 'logout' %}" class="btn btn-danger">
+            <i class="fas fa-sign-out-alt"></i> Sair
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-header">
+                    <i class="fas fa-car"></i> Veículos
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ carros_quant }}</h5>
+                    <p class="card-text">Quantidade de veículos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">
+                    <i class="fas fa-users"></i> Clientes
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ clientes_quant }}</h5>
+                    <p class="card-text">Quantidade de clientes</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">
+                    <i class="fas fa-shopping-cart"></i> Vendas
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ compras_quant }}</h5>
+                    <p class="card-text">Quantidade de vendas</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">
+                    <i class="fas fa-dollar-sign"></i> Valor Total
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ valor_total_vendas }}</h5>
+                    <p class="card-text">Valor total de vendas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
