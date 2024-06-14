@@ -26,15 +26,22 @@
                         <strong>Marca:</strong> {{ compra.carro.marca }}<br>
                         <strong>Modelo:</strong> {{ compra.carro.modelo }}<br>
                         <strong>Ano:</strong> {{ compra.carro.ano }}<br>
-                        <strong>Preço:</strong> {{ compra.preco_formatado }}<br>
+                        <strong>Preço:</strong> {{ preco_formatado }}<br>
                         <strong>Cor:</strong> {{ compra.carro.cor }}
                     </p>
                 </div>
             </div>
-            <div class="text-center">
-                <img src="{{ compra.carro.imagem.url }}" alt="Imagem do carro" class="img-fluid rounded" style="max-width: 350px;">
-            </div>
+            {% if compra.carro.imagem %}
+                <div class="text-center">
+                    <img src="{{ compra.carro.imagem.url }}" alt="Imagem do carro" class="img-fluid rounded" style="max-width: 350px;">
+                </div>
+            {% else %}
+                <div class="text-center">
+                    <p>Imagem não disponível</p>
+                </div>
+            {% endif %}
         </div>
+        <a href="{% url 'listar_compras' %}" class="btn btn-primary">Voltar</a>
     </div>
 </div>
 {% endblock %}

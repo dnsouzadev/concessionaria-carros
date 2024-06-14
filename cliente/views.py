@@ -2,7 +2,7 @@ from genericpath import exists
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
-from .forms import ClienteForm
+from .forms import ClienteForm, CompraForm
 
 from .models import Cliente, Compra
 from .utils import formatar_preco
@@ -53,31 +53,59 @@ def excluir_cliente(request, id):
 
 
 def listar_compras(request):
-    return render(request, 'listar_compras.html')
+    compras = Compra.objects.all()
+
+    for compra in compras:
+        compra.preco_formatado = formatar_preco(compra.valor())
+        compra.nome_cliente = compra.cliente.nome + ' ' + compra.cliente.sobrenome
+
+    context = {
+        'compras': compras,
+    }
+    return render(request, 'listar_compras.html', context)
 
 
 def criar_compra(request):
-    return JsonResponse({'message': 'Criar compra'})
+    if request.method == 'POST':
+        form = CompraForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_compras')
+    else:
+        form = CompraForm()
+        return render(request, 'criar_compra.html', {'form': form})
 
 def editar_compra(request, id):
-    return JsonResponse({'message': 'Editar compra'})
+    compra = Compra.objects.get(id=id)
+    if compra is None:
+        return redirect('listar_compras')
+    if request.method == 'POST':
+        form = CompraForm(request.POST, instance=compra)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_clientes')
+    else:
+        form = CompraForm(instance=compra)
+        return render(request, 'criar_compra.html', {'form': form})
 
 def excluir_compra(request, id):
-    return JsonResponse({'message': 'Excluir compra'})
+    compra = Compra.objects.get(id=id)
+    if compra is None:
+        return redirect('listar_compras')
+    compra.delete()
+    return JsonResponse({'message': 'Compra excluída com sucesso!'})
 
 def compra(request, id):
-    try:
-        compras = Compra.objects.filter(cliente_id=id)
+    compra_q = Compra.objects.filter(id=id)
+    print(compra_q)
+    if not compra_q:
+        return HttpResponse('Cliente não possui compras')
 
-        compras.valor = 0
-        for compra in compras:
-            compra.valor = compra.valor()
-            compra.preco_formatado = formatar_preco(compra.valor)
+    preco_formatado = formatar_preco(compra_q[0].valor())
 
-        context = {
-            'compras': compras
-        }
+    context = {
+        'compra': compra_q[0],
+        'preco_formatado': preco_formatado
+    }
 
-        return render(request, 'compra.html', context)
-    except Compra.DoesNotExist:
-        return HttpResponse('nao existe compra para este cliente')
+    return render(request, 'compra.html', context)

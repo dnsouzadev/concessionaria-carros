@@ -1,0 +1,43 @@
+{% extends 'basic.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Compras {% endblock %}
+{% load static %}
+
+{% block content %}
+
+    <br>
+    <br>
+    <h1 class="text-center">Listar Compras</h1>
+    <br>
+
+    <div class="container-fluid distanciamento">
+        <a href="{% url 'criar_compra' %}" class="btn btn-primary">Comprar</a>
+        <br>
+        <hr>
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Cliente</th>
+                <th scope="col">Carro</th>
+                <th scope="col">Preco</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for compra in compras %}
+                    <tr>
+                        <td>{{ compra.cliente }}</td>
+                        <td>{{ compra.carro }}</td>
+                        <td>{{ compra.preco_formatado }}</td>
+                        <td>
+                            <a href="{% url 'compra' compra.id %}" class="btn btn-info">Detalhar</a>
+                            <a href="{% url 'editar_compra' compra.id %}" class="btn btn-warning">Editar</a>
+                            <a onclick="apagar_compra({{ compra.id }})" class="btn btn-danger">Deletar</a>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+    </div>
+<script src="{% static 'clientes/js/compras.js' %}"></script>
+
+{% endblock %}

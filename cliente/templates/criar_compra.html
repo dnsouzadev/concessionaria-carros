@@ -1,0 +1,12 @@
+{% extends 'basic.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Criar Compra {% endblock %}
+
+{% block content %}
+    <h1>Compra</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {% crispy form %}
+
+{% endblock %}
