@@ -1,3 +1,4 @@
+from genericpath import exists
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
@@ -30,10 +31,25 @@ def criar_cliente(request):
         return render(request, 'criar_cliente.html', {'form': form})
 
 def editar_cliente(request, id):
-    return JsonResponse({'message': 'Editar cliente'})
+    cliente = Cliente.objects.get(id=id)
+    if cliente is None:
+        return redirect('listar_clientes')
+    if request.method == 'POST':
+        form = ClienteForm(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            return redirect('listar_clientes')
+    else:
+        form = ClienteForm(instance=cliente)
+        return render(request, 'criar_cliente.html', {'form': form})
+
 
 def excluir_cliente(request, id):
-    return JsonResponse({'message': 'Excluir cliente'})
+    cliente = Cliente.objects.get(id=id)
+    if cliente is None:
+        return redirect('listar_clientes')
+    cliente.delete()
+    return JsonResponse({'message': 'Cliente excluído com sucesso!'})
 
 
 def listar_compras(request):

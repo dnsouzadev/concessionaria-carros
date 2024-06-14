@@ -1,5 +1,4 @@
 function apagar_carro(id){
-    console.log('clicou')
     fetch(`excluir/${id}`, {
         method: 'GET',
     }).then(response => {
