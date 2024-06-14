@@ -1,0 +1,30 @@
+{% extends 'basic.html' %}
+{% block 'title' %} Clientes {% endblock %}
+
+{% block content %}
+
+<div class='container'>
+
+    {% for cliente in clientes %}
+    <div class='row'>
+        <div class='col-md-12'>
+            <div class='panel panel-default'>
+                <div class='panel-heading'>
+                    <h3 class='panel-title'>{{ cliente.nome }}</h3>
+                </div>
+                <div class='panel-body'>
+                        <p><strong>CPF:</strong> {{ cliente.cpf }}</p>
+                        <p><strong>Telefone:</strong> {{ cliente.telefone }}</p>
+                        <p><strong>Email:</strong> {{ cliente.email }}</p>
+                        <p><strong>Data de Nascimento:</strong> {{ cliente.data_nascimento }}</p>
+                        <p><strong>Nivel:</strong> {{ cliente.nivel_bruto }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}
