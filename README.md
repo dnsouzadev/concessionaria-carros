@@ -23,11 +23,8 @@ Clone o repositório:
 ```bash
 git clone https://github.com/dnsouzadev/concessionaria-carros.git
 
-```bash
 pip install -r requiriments.txt
 
-```bash
 python manage.py migrate
 
-```bash
 python manage.py runserver
