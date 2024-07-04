@@ -1,6 +1,6 @@
 # Concessionária de Carros
 
-Este projeto é uma aplicação para gerenciar uma concessionária de carros, desenvolvida com [tecnologia utilizada, por exemplo, React/Node.js/Express/etc].
+Este projeto é uma aplicação para gerenciar uma concessionária de carros, desenvolvida com django.
 
 ## Funcionalidades
 
